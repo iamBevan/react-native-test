@@ -1,0 +1,1 @@
+expo install @react-native-community/masked-view react-native-gesture-handler react-native-screens @react-navigation/native @react-navigation/stack
