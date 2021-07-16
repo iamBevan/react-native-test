@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, View, Text, StyleSheet } from "react-native"
+import { Button, View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { RootStackParamList } from "../../App"
 
@@ -16,8 +16,8 @@ const HomeScreen = ({ navigation }: Props) => {
 	return (
 		<View style={styles.mainView}>
 			<Text>Home Screen</Text>
-			<Button
-				title='Star Wars'
+			<TouchableOpacity
+				style={styles.touchableView}
 				onPress={() => {
 					navigation.navigate("Details", {
 						movie: {
@@ -27,10 +27,13 @@ const HomeScreen = ({ navigation }: Props) => {
 						},
 					})
 				}}
-				color='red'
-			/>
-			<Button
-				title='Black Panther'
+			>
+				<View>
+					<Text style={styles.touchableText}>Star Wars</Text>
+				</View>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.touchableView}
 				onPress={() => {
 					navigation.navigate("Details", {
 						movie: {
@@ -40,9 +43,13 @@ const HomeScreen = ({ navigation }: Props) => {
 						},
 					})
 				}}
-			/>
-			<Button
-				title='The Matrix'
+			>
+				<View>
+					<Text style={styles.touchableText}>Black Panther</Text>
+				</View>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.touchableView}
 				onPress={() => {
 					navigation.navigate("Details", {
 						movie: {
@@ -52,7 +59,11 @@ const HomeScreen = ({ navigation }: Props) => {
 						},
 					})
 				}}
-			/>
+			>
+				<View>
+					<Text style={styles.touchableText}>The Matrix</Text>
+				</View>
+			</TouchableOpacity>
 		</View>
 	)
 }
@@ -63,8 +74,21 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	button: {
-		backgroundColor: "#640e0e",
+	touchableView: {
+		marginBottom: 30,
+		width: 150,
+		height: 50,
+		alignItems: "center",
+		backgroundColor: "orange",
+		borderWidth: 5,
+		borderRadius: 10,
+	},
+	touchableText: {
+		textAlign: "center",
+		paddingTop: 5,
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "white",
 	},
 })
 

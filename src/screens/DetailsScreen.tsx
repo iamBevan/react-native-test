@@ -1,6 +1,6 @@
 import { RouteProp } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Button, View, Text, StyleSheet } from "react-native"
 import { RootStackParamList } from "../../App"
 
@@ -17,35 +17,39 @@ type Props = {
 }
 
 const DetailsScreen = ({ navigation, route }: Props) => {
-	console.log(route)
 	const movie = route.params.movie
+	const [details, setDetails] = useState<{
+		Title: string
+		Released: string
+		Plot: string
+	} | null>(null)
+
+	useEffect(() => {
+		const xhr = new XMLHttpRequest()
+		xhr.open(
+			"GET",
+			"https://www.omdbapi.com/?apikey=e62b36fa&t=Star+Wars&y=1977"
+		)
+		xhr.send()
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const response = JSON.parse(xhr.response)
+
+				setDetails(response)
+				console.log("title: ", response.Title)
+				console.log("released: ", response.Released)
+				console.log("plot: ", response.Plot)
+			} else {
+				console.log(`HTTP Request Failed ${xhr.status}`)
+			}
+		}
+	}, [])
 
 	return (
 		<View style={styles.mainView}>
-			<Text style={{ fontSize: 20 }}>
-				{movie.title} ({movie.release})
-			</Text>
-			<Text style={{ fontSize: 100 }}>{movie.screenNumber}</Text>
-			<Button
-				title='Go to Image'
-				onPress={() => {
-					navigation.navigate("BigImage")
-				}}
-			/>
-			<Button
-				title='More Details'
-				onPress={() => {
-					movie.screenNumber = movie.screenNumber + 1
-					console.log(movie)
-					navigation.push("Details", { movie: movie })
-				}}
-			/>
-			<Button
-				title='Go Back to Home'
-				onPress={() => {
-					navigation.popToTop()
-				}}
-			/>
+			<Text>Title: {details?.Title}</Text>
+			<Text>Released: {details?.Released}</Text>
+			<Text>Plot: {details?.Plot}</Text>
 		</View>
 	)
 }
